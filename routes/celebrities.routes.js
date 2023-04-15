@@ -1,5 +1,6 @@
 // starter code in both routes/celebrities.routes.js and routes/movies.routes.js
 const router = require("express").Router();
+const CelebrityModels = require("../models/Celebrity.model");
 
 // all your routes here
 router.get("/create", (req, res) => {
@@ -7,26 +8,20 @@ router.get("/create", (req, res) => {
 });
 
 router.post("/create", (req, res) => {
-  const { name, occupation, catchPhrase } = req.body;
-
-  const newCelebrity = new Celebrity({
-    name,
-    occupation,
-    catchPhrase,
-  });
-
-  newCelebrity.save((err) => {
-    if (err) {
-      console.log(err);
-      res.render("celebrities/new-celebrity");
-    } else {
+  const newCelebrity = req.body;
+  CelebrityModels.create(newCelebrity)
+    .then((celebrities) => {
+      console.log(celebrities);
       res.redirect("/celebrities");
-    }
-  });
+    })
+
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
-router.get("/celebrities", (req, res) => {
-  Celebrity.find()
+router.get("/", (req, res) => {
+  CelebrityModels.find()
     .then((celebrities) => {
       res.render("celebrities/celebrities", { celebrities });
     })
@@ -34,6 +29,5 @@ router.get("/celebrities", (req, res) => {
       console.log(error);
     });
 });
-
 
 module.exports = router;
