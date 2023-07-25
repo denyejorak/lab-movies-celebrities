@@ -1,0 +1,25 @@
+<div class="container">
+  <span id="movie-info-bar">
+     {{currentMovie.title}} |
+     {{currentMovie.genre}}
+  </span>
+  <br>
+  <p>{{currentMovie.plot}}</p>
+  <h6>Lead Actor/Actress</h6>
+  {{#each currentMovie.cast}}
+    <h3>&#128526; {{name}} &#128526;</h3>
+    <p style="font-size: 10px;">{{occupation}}<br>Catch phrase: <br>{{catchPhrase}}</p>
+  {{/each}} 
+
+  <div id="delete-edit-buttons">
+      <form action="/movies/{{currentMovie._id}}/delete" method="post">
+            <button type="submit" class="create-new-button">DELETE THIS MOVIE</button>
+      </form>
+      <a href="/movies/{{currentMovie._id}}/edit">
+            <button class="create-new-button">EDIT THIS MOVIE</button>
+      </a>
+  </div>
+
+
+
+</div>

@@ -2,12 +2,12 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const celebritySchema = new Schema({
-  name: { type: String, required: true },
-  occupation: { type: String, default: "unknown" },
-  catchPhrase: { type: String, default: "I'm a celebrity!" },
+const celebSchema = new Schema({
+  name: String,
+  occupation: String,
+  catchPhrase: String,
 });
 
-const Celebrity = mongoose.model("Celebrity", celebritySchema);
+const CelebModel = mongoose.model("celebrity", celebSchema);
 
-module.exports = Celebrity;
+module.exports = CelebModel;

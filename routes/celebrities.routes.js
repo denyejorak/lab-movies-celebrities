@@ -1,33 +1,29 @@
-// starter code in both routes/celebrities.routes.js and routes/movies.routes.js
+const CelebModel = require("../models/Celebrity.model");
+
 const router = require("express").Router();
-const CelebrityModels = require("../models/Celebrity.model");
 
-// all your routes here
 router.get("/create", (req, res) => {
-  res.render("celebrities/new-celebrity");
+  res.render("celebs/new-celeb");
 });
 
-router.post("/create", (req, res) => {
-  const newCelebrity = req.body;
-  CelebrityModels.create(newCelebrity)
-    .then((celebrities) => {
-      console.log(celebrities);
-      res.redirect("/celebrities");
-    })
-
-    .catch((error) => {
-      console.log(error);
-    });
+router.post("/create", async (req, res) => {
+  try {
+    const newCelebCreated = await CelebModel.create(req.body);
+    console.log("NEW CELEBRITY", newCelebCreated);
+    res.redirect("/celebs/celebslist");
+  } catch (err) {
+    res.redirect("/celebs/create");
+    console.log("new celebrity post error", err);
+  }
 });
 
-router.get("/", (req, res) => {
-  CelebrityModels.find()
-    .then((celebrities) => {
-      res.render("celebrities/celebrities", { celebrities });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+router.get("/celebslist", async (req, res) => {
+  try {
+    const allCelebs = await CelebModel.find();
+    res.render("celebs/allCelebs", { allCelebs });
+  } catch {
+    res.send("Oops, an error, go back");
+  }
 });
 
 module.exports = router;
